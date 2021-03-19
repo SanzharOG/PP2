@@ -1,19 +1,20 @@
-n=int(input())
-a={x for x in input().split()}
-m=int(input())
-b={x for x in input().split()}
-j=0
-print("Missed students:")
+n = int(input())
+a = list(map(str,input().split()))
+m = int(input())
+a1 = list(map(str,input().split()))
+ans,ans1 = list(),list()
 for i in a:
-    if i not in b:
-        print('-',end=' ')
-        print(i)
-print('Not in the group:')
-for j in b:
-    if j not in a:
-        print('-',end=' ')
-        print(j)
-
+    if i not in a1:
+        ans.append(i)
+for i in a1:
+    if i not in a:
+        ans1.append(i)
+print("Missed students:")
+for i in ans:
+    print("-",i)
+print("Not in the group:")
+for i in ans1:
+    print("-",i)
 
 
 
