@@ -5,6 +5,7 @@ size = width, height = (800, 600)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Trigonometric functions")
 font = pygame.font.SysFont('times-new-roman', 20)
+font1 = pygame.font.SysFont('verdana', 18)
 pygame.mixer.music.load('muz.mp3')
 pygame.mixer.music.play(-1)
 
@@ -22,9 +23,10 @@ while process:
     pygame.draw.line(screen, 'black', (70, 520), (730, 520))  # Y last line
     pygame.draw.line(screen, 'black', (100, 10), (100, 550))  # X first line
     pygame.draw.line(screen, 'black', (700, 10), (700, 550))  # X last line
-    pygame.draw.line(screen, 'red', (530, 60), (570, 60)) # line of color of sin function
+    pygame.draw.line(screen,  (165, 6, 5), (530, 60), (570, 60)) # line of color of sin function
+    pygame.draw.line(screen,  (165, 6, 5), (530, 61), (570, 61))
     for x in range(530, 570, 7):                          # dotted line of color of cos function
-            pygame.draw.line(screen, 'blue', (x, 90), (x + 3, 90))
+            pygame.draw.line(screen, (37, 78, 138), (x, 90), (x + 3, 90))
     for x in range(100, 701, 100):                        # other OY lines
             if x != 500:                                  # place to mark functions 
                pygame.draw.line(screen, 'black', (x, 10), (x, 550))
@@ -33,13 +35,15 @@ while process:
                pygame.draw.line(screen, 'black', (x, 100), (x, 550))
     for x in range(100, 701, 50):                       # OX large strokes for a value of 0 or 1 for functions
         pygame.draw.line(screen, 'black', (x, 10), (x, 30))
-        pygame.draw.line(screen, 'black', (x, 550), (x, 530))
+        pygame.draw.line(screen, 'black', (x, 550), (x, 530)) 
     for x in range(100, 701, 25):                      # OX average size strokes for a value of 0 or 1 for functions
         pygame.draw.line(screen, 'black', (x, 10), (x, 20))
         pygame.draw.line(screen,'black', (x, 550), (x, 540))
-#    for x in range(100, 701, 12):                      
-#        pygame.draw.line(screen, 'black', (x, 10), (x, 13))
-#        pygame.draw.line(screen,'black', (x, 550), (x, 547))
+    for x in range(100, 699, 25):                      # OX small size strokes for a value of 0 or 1 for functions
+        pygame.draw.line(screen, 'black', (x + 12, 10), (x + 12, 14))
+        pygame.draw.line(screen,'black', (x + 12, 550), (x + 12, 546))                      
+        pygame.draw.line(screen, 'black', (x + 13, 10), (x + 13, 14))
+        pygame.draw.line(screen,'black', (x + 13, 550), (x + 13, 546))
     for y in range(40, 521, 60):                       # OY other lines
         pygame.draw.line(screen, 'black', (70, y), (730, y))
     for y in range(40, 521, 30):                        # OY large strokes
@@ -51,18 +55,22 @@ while process:
     for x in range(100, 700):                         # sin(x) function
         sin_y1 = 240 * math.sin((x - 100) / 100 * math.pi)
         sin_y2 = 240 * math.sin((x - 99) / 100 * math.pi)
-        pygame.draw.aalines(screen, 'red', False, [(x, 280 + sin_y1), ((x + 1), 280 + sin_y2)])
+        sin_y3 = 240 * math.sin((x - 98) / 100 * math.pi)
+        pygame.draw.aalines(screen,  (165, 6, 5), False, [(x, 280 + sin_y1), ((x + 1), 280 + sin_y2), ((x + 3), 280 + sin_y3)])
         pygame.time.delay(10)                         # animation of sin(x)
         pygame.display.update()
     for x in range(100, 700, 3):                      # cos(x) function
         cos_y1 = 240 * math.cos((x - 100) / 100 * math.pi)
         cos_y2 = 240 * math.cos((x - 99) / 100 * math.pi)
-        pygame.draw.aalines(screen, 'blue', False, [(x, 280 + cos_y1), ((x + 1), 280 + cos_y2)])
+        pygame.draw.aalines(screen, (37, 78, 138), False, [(x, 280 + cos_y1), ((x + 1), 280 + cos_y2)])
         pygame.time.delay(20)                        # animation of cos(x)
         pygame.display.update()
-    screen.blit(font.render('sin(x)', False, 'black'), (475, 45)) # text in empty place
-    screen.blit(font.render('cos(x)', False, 'black'), (475, 75))
+    screen.blit(font1.render('sin(x)', False, 'black'), (475, 45)) # text in empty place
+    screen.blit(font1.render('cos(x)', False, 'black'), (475, 75))
     screen.blit(font.render('X', False, 'black'), (393, 575))
+    screen.blit(font.render('-3', False, 'black'), (105, 320))
+    screen.blit(font.render('-2', False, 'black'), (180, 320))
+    screen.blit(font.render('-1', False, 'black'), (260, 320))
     x_numerator = ['-3п', ' 5п', '-2п', ' 3п', '-п ', ' п ', ' 0 ', ' п ', ' п ', ' 3п', ' 2п', ' 5п', ' 3п']
     x_division = ['', '_ __', '', '_ __', '', '_ _', '', '   _', '', '   __', '', '   __', '']
     x_denominator = ['', '  2', '', '  2', '', ' 2', '', ' 2', '', '  2', '', '  2', '']
