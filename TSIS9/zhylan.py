@@ -303,9 +303,9 @@ def start_the_game2():
         for row in range(COUNT_BLOCKS):
             for column in range(COUNT_BLOCKS):
                 if(row+column)%2==0:
-                    color = BLUE
+                    color = (203, 180, 5)
                 else:
-                    color = WHITE
+                    color = (100, 100, 100)
 
                 draw_block(color, row, column)
         def wall(row, column):
@@ -350,7 +350,96 @@ def start_the_game2():
         snake_blocks.pop(0)
         pygame.display.flip()
         timer.tick(3+speed)
+def start_the_game3():
+    def get_random_empty_block():
+        x = random.randint(0, 29)
+        y = random.randint(0, 29)
+        empty_block = SnakeBLock(x, y) 
+        while empty_block in snake_blocks:
+           empty_block.x = random.randint(0, 29)
+           empty_block.y = random.randint(0, 29)
+        return empty_block
 
+    snake_blocks=[SnakeBLock(15, 15), SnakeBLock(15, 16)]
+    apple = get_random_empty_block()
+    d_row = 0
+    d_col = 1
+    total = 0
+    speed = 2
+    while process:
+        for event in pygame.event.get(): 
+         if event.type==pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+         elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP and d_col!=0:
+                d_row = -1
+                d_col = 0
+            elif event.key == pygame.K_DOWN and d_col!=0:
+                d_row = 1
+                d_col = 0
+            elif event.key == pygame.K_LEFT and d_row!=0:
+                d_row = 0
+                d_col = -1
+            elif event.key == pygame.K_RIGHT and d_row!=0:
+                d_row = 0
+                d_col = 1
+
+        screen.fill(Color)
+        text_total = courier.render(f"Total: {total}", 0, WHITE)
+        screen.blit(text_total, (SIZE_BLOCK, 700))
+        text_speed = courier.render(f"Speed: {speed}", 0, WHITE)
+        screen.blit(text_speed, (400, 700))
+        for row in range(COUNT_BLOCKS):
+            for column in range(COUNT_BLOCKS):
+                if(row+column)%2==0:
+                    color = 'yellow'
+                else:
+                    color = 'gray'
+
+                draw_block(color, row, column)
+        def wall(row, column):
+         for row in range(15):
+            draw_block('black', row, 15)
+         for row in range (10):
+            draw_block('black', 29-row, 15)
+         for column in range (7):
+            draw_block('black', 15, column)
+         for column in range (7):
+            draw_block('black', 15, 29-column)
+        wall(row, column)    
+        head = snake_blocks[-1]
+
+        if not head.is_inside():
+            pygame.mixer.Sound('gameover.mp3').play()
+            print('crash')
+            break
+        draw_block(RED, apple.x, apple.y)
+        for block in snake_blocks:
+            draw_block(SNAKE_COLOR, block.x, block.y)
+        
+        if apple == head:
+            total +=1
+            speed = total//2 + 5
+            snake_blocks.append(apple)
+            apple = get_random_empty_block()
+            
+        
+        new_head = SnakeBLock(head.x + d_row, head.y + d_col)
+        
+        if new_head in snake_blocks:
+            pygame.mixer.Sound('gameover.mp3').play()
+            print("crash yourself")
+            break
+        for bx in NO:
+            if new_head == bx:
+                pygame.mixer.Sound('gameover.mp3').play()
+                print("crash yourself")
+                break
+        snake_blocks.append(new_head)
+        snake_blocks.pop(0)
+        pygame.display.flip()
+        timer.tick(5+speed)
 
 menu = pygame_menu.Menu(300, 400, "WELCOME", theme=pygame_menu.themes.THEME_BLUE)
 menu.add_text_input("NAME: ", default = "Sanzhar")
@@ -358,8 +447,8 @@ menu.add_button("EASY 1 PLAYER", start_the_game)
 menu.add_button("EASY 2 PLAYERS", start_the_game1)
 menu.add_button("MEDIUM 1 PLAYER", start_the_game2)
 menu.add_button("MEDIUM 2 PLAYERS", start_the_game2)
-menu.add_button("HARD 1 PLAYER", start_the_game)
-menu.add_button("HARD 2 PLAYERS", start_the_game1)
+menu.add_button("HARD 1 PLAYER", start_the_game3)
+menu.add_button("HARD 2 PLAYERS", start_the_game3)
 
 
 menu.add_button("EXIT", pygame_menu.events.EXIT)
