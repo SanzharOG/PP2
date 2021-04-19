@@ -47,7 +47,7 @@ class SnakeBLock1:
 
 
 process=True
-NO=[[15, 1], [15, 2], [15, 3], [15, 4], [15, 5], [15, 6], [15, 0], [15, 29], [15, 28], [15, 27], [15, 26], [15, 25], [15, 24], [15, 23], [0, 15],
+NO=[(15, 1), (15, 2), (15, 3), (15, 4), (15, 5), (15, 6), (15, 0), (15, 29), [15, 28], [15, 27], [15, 26], [15, 25], [15, 24], [15, 23], [0, 15],
         [1, 15], [2, 15], [3, 15], [4, 15], [5, 15], [6, 15], [7, 15], [8, 15], [9, 15], [10, 15], [11, 15], [12, 15], [13, 15], [14, 15], [29, 15], [28, 15], [27, 15], [26, 15], [25, 15], [24, 15], [23, 15], [22, 15], [21, 15], [20, 15]]
 def draw_block(color, row, column):
     if [10+column*SIZE_BLOCK+MARGIN*(column+1), 20+row*SIZE_BLOCK + MARGIN*(row+1), SIZE_BLOCK, SIZE_BLOCK] not in NO:
@@ -308,7 +308,7 @@ def start_the_game2():
                     color = WHITE
 
                 draw_block(color, row, column)
-        def wall():
+        def wall(row, column):
          for row in range(15):
             draw_block('black', row, 15)
          for row in range (10):
@@ -317,7 +317,7 @@ def start_the_game2():
             draw_block('black', 15, column)
          for column in range (7):
             draw_block('black', 15, 29-column)
-        wall()    
+        wall(row, column)    
         head = snake_blocks[-1]
 
         if not head.is_inside():
@@ -341,10 +341,11 @@ def start_the_game2():
             pygame.mixer.Sound('gameover.mp3').play()
             print("crash yourself")
             break
-        if new_head in NO:
-            pygame.mixer.Sound('gameover.mp3').play()
-            print("crash yourself")
-            break
+        for bx in NO:
+            if new_head == bx:
+                pygame.mixer.Sound('gameover.mp3').play()
+                print("crash yourself")
+                break
         snake_blocks.append(new_head)
         snake_blocks.pop(0)
         pygame.display.flip()

@@ -1,11 +1,4 @@
 import pygame, random
-
-# (x1, y1), (x2, y2)
-# A = y2 - y1
-# B = x1 - x2
-# C = x2 * y1 - x1 * y2
-# Ax + By + C = 0
-# (x - x1) / (x2 - x1) = (y - y1) / (y2 - y1)
 pygame.display.set_caption("PAINT")
 def drawLine(screen, start, end, width, color):
     x1 = start[0]
@@ -19,7 +12,7 @@ def drawLine(screen, start, end, width, color):
     A = y2 - y1
     B = x1 - x2
     C = x2 * y1 - x1 * y2
-
+    
     if dx > dy:
         if x1 > x2:
             x1, x2 = x2, x1
@@ -35,7 +28,6 @@ def drawLine(screen, start, end, width, color):
         for y in range(y1, y2):
             x = (-C - B * y) / A
             pygame.draw.circle(screen, color, (x, y), width)
-
 def main():
     screen = pygame.display.set_mode((800, 600))
     screen.fill('white')
@@ -91,6 +83,18 @@ def main():
                     radius += 1
                 if event.key == pygame.K_DOWN:
                     radius -= 1
+                if event.key == pygame.K_z and ctrl_held:
+                    print("YOUR COORDINATES")
+                    z1 = int(input())
+                    w1 = int(input())
+                    z2 = int(input())
+                    w2 = int(input())
+                    pos = pygame.mouse.get_pos()
+                    pygame.draw.rect(screen, mode, (z1, w1, z2, w2), radius)
+                if event.key == pygame.K_x and ctrl_held:
+                    pos = pygame.mouse.get_pos()
+                    pygame.draw.circle(screen, mode, pos, radius, 1)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if mode == 'random':
                     color = (random.randrange(256), random.randrange(256), random.randrange(256))
@@ -103,7 +107,7 @@ def main():
             if event.type == pygame.MOUSEMOTION:
                 if draw_on:
                     drawLine(screen, last_pos, event.pos, radius, color)
-                    pygame.draw.circle(screen, color, event.pos, radius)
+                    #pygame.draw.circle(screen, color, event.pos, radius)
                 last_pos = event.pos
         pygame.display.flip()
 
