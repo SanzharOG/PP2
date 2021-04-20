@@ -263,14 +263,25 @@ def start_the_game2():
     
     def get_random_empty_block():
         x = random.randint(0, 29)
+        if x == 15:
+           x = random.randint(0, 29)
         y = random.randint(0, 29)
+        if y == 15:
+               y = random.randint(0, 29)
         empty_block = SnakeBLock(x, y) 
         while empty_block in snake_blocks:
            empty_block.x = random.randint(0, 29)
+           if empty_block.x == 15:
+               empty_block.x = random.randint(0, 29)
            empty_block.y = random.randint(0, 29)
+           if empty_block.y == 15:
+               empty_block.y = random.randint(0, 29)
         return empty_block
 
     snake_blocks=[SnakeBLock(15, 15), SnakeBLock(15, 16)]
+    crash = [SnakeBLock(15, 0), SnakeBLock(15, 6), SnakeBLock(15, 5), SnakeBLock(15, 4), SnakeBLock(15, 3), SnakeBLock(15, 2), SnakeBLock(15, 1), SnakeBLock(15, 29), SnakeBLock(15, 28), SnakeBLock(15, 27), SnakeBLock(15, 26),
+    SnakeBLock(15, 25), SnakeBLock(15, 24), SnakeBLock(15, 23), SnakeBLock(0, 15), SnakeBLock(1, 15), SnakeBLock(2, 15), SnakeBLock(3, 15), SnakeBLock(4, 15), SnakeBLock(5, 15), SnakeBLock(6, 15), SnakeBLock(7, 15), SnakeBLock(8, 15), SnakeBLock(9, 15),
+    SnakeBLock(10, 15), SnakeBLock(11, 15),SnakeBLock(12, 15),SnakeBLock(13, 15),SnakeBLock(14, 15),SnakeBLock(29, 15), SnakeBLock(28, 15),SnakeBLock(27, 15),SnakeBLock(26, 15),SnakeBLock(25, 15),SnakeBLock(24, 15),SnakeBLock(23, 15),SnakeBLock(22, 15),SnakeBLock(21, 15),SnakeBLock(20, 15)]
     apple = get_random_empty_block()
     d_row = 0
     d_col = 1
@@ -336,16 +347,14 @@ def start_the_game2():
             
         
         new_head = SnakeBLock(head.x + d_row, head.y + d_col)
-        
         if new_head in snake_blocks:
             pygame.mixer.Sound('gameover.mp3').play()
             print("crash yourself")
             break
-        for bx in NO:
-            if new_head == bx:
-                pygame.mixer.Sound('gameover.mp3').play()
-                print("crash yourself")
-                break
+        if new_head in crash:
+            pygame.mixer.Sound('gameover.mp3').play()
+            print("crash")
+            break
         snake_blocks.append(new_head)
         snake_blocks.pop(0)
         pygame.display.flip()
@@ -353,19 +362,30 @@ def start_the_game2():
 def start_the_game3():
     def get_random_empty_block():
         x = random.randint(0, 29)
+        if x == 15:
+           x = random.randint(0, 29)
         y = random.randint(0, 29)
+        if y == 15:
+               y = random.randint(0, 29)
         empty_block = SnakeBLock(x, y) 
         while empty_block in snake_blocks:
            empty_block.x = random.randint(0, 29)
+           if empty_block.x == 15:
+               empty_block.x = random.randint(0, 29)
            empty_block.y = random.randint(0, 29)
+           if empty_block.y == 15:
+               empty_block.y = random.randint(0, 29)
         return empty_block
 
     snake_blocks=[SnakeBLock(15, 15), SnakeBLock(15, 16)]
+    crash = [SnakeBLock(15, 0), SnakeBLock(15, 6), SnakeBLock(15, 5), SnakeBLock(15, 4), SnakeBLock(15, 3), SnakeBLock(15, 2), SnakeBLock(15, 1), SnakeBLock(15, 29), SnakeBLock(15, 28), SnakeBLock(15, 27), SnakeBLock(15, 26),
+    SnakeBLock(15, 25), SnakeBLock(15, 24), SnakeBLock(15, 23), SnakeBLock(0, 15), SnakeBLock(1, 15), SnakeBLock(2, 15), SnakeBLock(3, 15), SnakeBLock(4, 15), SnakeBLock(5, 15), SnakeBLock(6, 15), SnakeBLock(7, 15), SnakeBLock(8, 15), SnakeBLock(9, 15),
+    SnakeBLock(10, 15), SnakeBLock(11, 15),SnakeBLock(12, 15),SnakeBLock(13, 15),SnakeBLock(14, 15),SnakeBLock(29, 15), SnakeBLock(28, 15),SnakeBLock(27, 15),SnakeBLock(26, 15),SnakeBLock(25, 15),SnakeBLock(24, 15),SnakeBLock(23, 15),SnakeBLock(22, 15),SnakeBLock(21, 15),SnakeBLock(20, 15)]
     apple = get_random_empty_block()
     d_row = 0
     d_col = 1
     total = 0
-    speed = 2
+    speed = 5
     while process:
         for event in pygame.event.get(): 
          if event.type==pygame.QUIT:
@@ -393,9 +413,9 @@ def start_the_game3():
         for row in range(COUNT_BLOCKS):
             for column in range(COUNT_BLOCKS):
                 if(row+column)%2==0:
-                    color = 'yellow'
+                    color = (203, 180, 5)
                 else:
-                    color = 'gray'
+                    color = (100, 100, 100)
 
                 draw_block(color, row, column)
         def wall(row, column):
@@ -426,16 +446,14 @@ def start_the_game3():
             
         
         new_head = SnakeBLock(head.x + d_row, head.y + d_col)
-        
         if new_head in snake_blocks:
             pygame.mixer.Sound('gameover.mp3').play()
             print("crash yourself")
             break
-        for bx in NO:
-            if new_head == bx:
-                pygame.mixer.Sound('gameover.mp3').play()
-                print("crash yourself")
-                break
+        if new_head in crash:
+            pygame.mixer.Sound('gameover.mp3').play()
+            print("crash")
+            break
         snake_blocks.append(new_head)
         snake_blocks.pop(0)
         pygame.display.flip()
