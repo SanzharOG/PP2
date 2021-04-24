@@ -1,5 +1,4 @@
 import psycopg2
-import psycopg2
 try:
     con = psycopg2.connect(database = "sample", user = "postgres",
                            password = "dbbase123", host = "localhost", port = "5432")    
